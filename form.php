@@ -42,7 +42,7 @@ if (!empty($messages)) {
 			<p>
 	<label>
 		Напишите биографию:<br />
-		<textarea name="biography" <?php if ($errors['biographi']) {print 'class="error"';} ?> value="<?php print $values['biographi']; ?>">начальное значение</textarea>
+		<textarea name="biography" <?php if ($errors['biography']) {print 'class="error"';} ?> value="<?php print $values['biography']; ?>">начальное значение</textarea>
 	</label><br /><p\>
 			<label>
 				Email
@@ -76,10 +76,10 @@ if (!empty($messages)) {
 					name="gender" value="F" />
 					 F</label></p>
 	<label>Сверхспособности:<br />
-		<select name="ability[]" multiple="multiple">
-			<option value="1">Левитация</option>
-			<option value="2" selected="selected">Прохождение сквозь стены </option>
-			<option value="3" selected="selected">Бессмертие</option>
+		<select name="ability[]" multiple="multiple"id="superpowers" <?php if ($errors['ability']) {print 'class="error"';} ?> value="<?php print $values['ability']; ?>">
+			<option value="1"<?php if(in_array("1", $values['ability'])) {print('selected="selected"');} ?>>Левитация</option>
+			<option value="2"<?php if(in_array("1", $values['ability'])) {print('selected="selected"');} ?> >Прохождение сквозь стены </option>
+			<option value="3"<?php if(in_array("1", $values['ability'])) {print('selected="selected"');} ?> >Бессмертие</option>
 		</select>
 	</label>
 

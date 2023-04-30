@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   // TODO: аналогично все поля.
 	$errors['email'] = !empty($_COOKIE['email_error']);
 	$errors['year'] = !empty($_COOKIE['year_error']);
-	$errors['biographi'] = !empty($_COOKIE['biographi_error']);
+	$errors['biography'] = !empty($_COOKIE['biography_error']);
 	$errors['limbs'] = !empty($_COOKIE['limbs_error']);
 	$errors['gender'] = !empty($_COOKIE['gender_error']);
 	$errors['ability'] = !empty($_COOKIE['ability_error']);
@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		setcookie('year_error','',100000);
 		$messages[]='<div class="error">Выберите год.</div>';
 	}
-	if($errors['biographi']){
-		setcookie('biographi_error','',100000);
+	if($errors['biography']){
+		setcookie('biography_error','',100000);
 		$messages[]='<div class="error">set bio</div>';
 	}
 	if($errors['limbs']){
@@ -74,9 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   // TODO: аналогично все поля.
 	$values['email'] = empty($_COOKIE['email_value']) ? '' : $_COOKIE['email_value'];
 	$values['year'] = empty($_COOKIE['year_value']) ? '' : (int)$_COOKIE['year_value'];
-	$values['biographi'] = empty($_COOKIE['biographi_value']) ? '' : (int)$_COOKIE['biographi_value'];
+	$values['biography'] = empty($_COOKIE['biography_value']) ? '' : $_COOKIE['biography_value'];
 	$values['limbs'] = empty($_COOKIE['limbs_value']) ? '' : (int)$_COOKIE['limbs_value'];
-	$values['ability'] = empty($_COOKIE['ability_value']) ? '' : (int)$_COOKIE['ability_value'];
+	$values['ability'] = empty($_COOKIE['ability_value']) ? [] : json_decode($_COOKIE['ability_value']);
 	$values['checkbox'] = empty($_COOKIE['checkbox_value']) ? '' : (int)$_COOKIE['checkbox_value'];
 
   // Включаем содержимое файла form.php.
@@ -153,23 +153,23 @@ else {
     // Сохраняем ранее введенное в форму значение на месяц.
     setcookie('gender_value', $_POST['gender'], time() + 30 * 24 * 60 * 60);
   }
-	if (empty($_POST['ability'])|| !is_array($_POST['ability'])) {
-    // Выдаем куку на день с флажком об ошибке в поле fio.
+	if (empty($_POST['ability']) || !is_array($_POST['ability'])) {  
+    //print('Укажите способности<br/>');
+    $errors = TRUE;
     setcookie('ability_error', '1', time() + 24 * 60 * 60);
-    $errors = TRUE;
-  }
-  else {
+}
+else {
     // Сохраняем ранее введенное в форму значение на месяц.
-    setcookie('ability_value', $_POST['ability'], time() + 30 * 24 * 60 * 60);
-  }
-	if (empty($_POST['biographi'])) {
+    setcookie('ability_value', json_encode($_POST['ability']), time() + 30 * 24 * 60 * 60);
+}
+	if (empty($_POST['biography']) || strlen($_POST['biography'])>150) {
     // Выдаем куку на день с флажком об ошибке в поле fio.
-    setcookie('biographi_error', '1', time() + 24 * 60 * 60);
+    setcookie('biography_error', '1', time() + 24 * 60 * 60);
     $errors = TRUE;
   }
   else {
     // Сохраняем ранее введенное в форму значение на месяц.
-    setcookie('biographi_value', $_POST['biographi'], time() + 30 * 24 * 60 * 60);
+    setcookie('biography_value', $_POST['biography'], time() + 30 * 24 * 60 * 60);
   }
 // *************
 // TODO: тут необходимо проверить правильность заполнения всех остальных полей.
@@ -188,7 +188,7 @@ else {
     setcookie('email_error', '', 100000);
     setcookie('gender_error', '', 100000);
     setcookie('limbs_error', '', 100000);
-    setcookie('biographi_error', '', 100000);
+    setcookie('biography_error', '', 100000);
     setcookie('ability_error', '', 100000);
     setcookie('checkbox_error', '', 100000);
 
